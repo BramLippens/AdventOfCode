@@ -1,51 +1,48 @@
 const { readFileSync, promises: fsPromises } = require('fs');
 
-const contents = readFileSync('./DayTwo/input.txt', 'utf-8');
+const contents = readFileSync('./Day3/input.txt', 'utf-8');
 const arr = contents.split(/\r?\n/);
 
 // console.log(arr);
 
 const part1 = () => {
-  let horizontal = 0;
-  let vertical = 0;
-  let movement = '';
-  let amount = 0;
-  arr.forEach((item, index) => {
-    movement = item.split(' ')[0];
-    amount = parseInt(item.split(' ')[1], 10);
-    if (movement === 'forward') {
-      horizontal += amount;
-    } else if (movement === 'up') {
-      vertical -= amount;
-    } else if (movement === 'down') {
-      vertical += amount;
+  let gammaRate = '';
+  let epsilonRate = '';
+  let powerConsumption = 0;
+  let zeros = 0;
+  let ones = 0;
+
+  const deep = arr[0].split('').length;
+
+  for (let i = 0; i < deep; i++) {
+    arr.forEach((item, index) => {
+      if (item.split('')[i] === '0') {
+        zeros++;
+      } else if (item.split('')[i] === '1') {
+        ones++;
+      }
+    });
+    if (zeros > ones) {
+      gammaRate += '0';
+    } else if (ones > zeros) {
+      gammaRate += '1';
+    }
+    zeros = 0;
+    ones = 0;
+  }
+  gammaRate.split('').forEach((item, index) => {
+    if (item === '0') {
+      epsilonRate += '1';
+    } else if (item === '1') {
+      epsilonRate += '0';
     }
   });
-  console.log('Total distance travelled:', horizontal * vertical);
+  powerConsumption = parseInt(gammaRate, 2) * parseInt(epsilonRate, 2);
+  console.log('Power consumption:', powerConsumption);
 };
 
-// part1();
+part1();
 
-const part2 = () => {
-  let horizontal = 0;
-  let depth = 0;
-  let aim = 0;
+const part2 = () => {};
 
-  let movement = '';
-  let amount = 0;
-  arr.forEach((item, index) => {
-    movement = item.split(' ')[0];
-    amount = parseInt(item.split(' ')[1], 10);
-    if (movement === 'forward') {
-      horizontal += amount;
-      depth += aim * amount;
-    } else if (movement === 'up') {
-      aim -= amount;
-    } else if (movement === 'down') {
-      aim += amount;
-    }
-  });
-  console.log('Total distance travelled:', horizontal * depth);
-};
-
-part2();
+// part2();
